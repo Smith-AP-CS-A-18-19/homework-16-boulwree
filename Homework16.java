@@ -1,4 +1,5 @@
 public class Homework16 {
+//Reece Boulware
 
 	/* This problem should calculate and return the value
 	 * of a times b recursively. You cannot use the *
@@ -7,7 +8,16 @@ public class Homework16 {
 	 */
 	public static int problem1(int a, int b) {
 
-	}
+		    if (a < b){
+		        return problem1(b, a);
+					}
+		    else if (b != 0){
+		        return (a + problem1(a, b - 1));
+					} else {
+		        return 0;
+					}
+		}
+
 
 	/* This problem should calculate and return the value
 	 * of a to the b power recursively. You cannot use
@@ -16,7 +26,10 @@ public class Homework16 {
 	 * exponentiation is repeated multiplication
 	 */
 	public static int problem2(int a, int b) {
-
+		if (b == 0){
+			return 1;
+		}
+		return problem1(problem2(a, b - 1), a);
 	}
 
 	/* Recursively find the minimum value in the given
@@ -27,11 +40,48 @@ public class Homework16 {
 	 * half of the array
 	 */
 	public static int problem3(int[] arr) {
-
+		return problem3(arr, 0, arr.length);
 	}
 
 	private static int problem3(int[] arr, int start, int end) {
-
+		if (end - start <= 1){
+			return 1;
+		}
+		int mid = start + (end - start) / 2;
+		problem3(arr, start, mid);
+		problem3(arr, mid, end);
+		int[] half = new int[end - start];
+		int left = start;
+		int right = mid;
+		int index = 0;
+		while (left != mid && right != end){
+			if (arr[left] <= arr[right]){
+				half[index] = arr[left];
+				left++;
+			} else {
+				half[index] = arr[right];
+				right++;
+			}
+			index++;
+		}
+		while (right != end){
+			half[index] = arr[right];
+			right++;
+			index++;
+		}
+		while (left != mid){
+			half[index] = arr[left];
+			left++;
+			index++;
+		}
+		for (int i = start; i < end; i++){
+			arr[i] = half[i - start];
+		}
+		if (arr[0] < half[0]){
+			return arr[0];
+		} else {
+			return half[0];
+		}
 	}
 
 	/* Recursively find the sum of the digits of
@@ -40,6 +90,10 @@ public class Homework16 {
 	 * and the remaining numbers are num / 10
 	 */
 	public static int problem4(int num) {
+		if (num == 0){
+			return 0;
+		}
+		return (num % 10 + problem4(num / 10));
 
 	}
 
@@ -56,6 +110,17 @@ public class Homework16 {
 	 * problem5(2) → 5
 	 */
 	 public static int problem5(int bunnies) {
+		 if (bunnies == 0) {
+			 return 0;
+		 }
+		 int half = 0;
+		 if (bunnies % 2 == 0){
+		 half = bunnies / 2;
+	 }
+	 if (bunnies % 2 == 1){
+		 half = (bunnies / 2) + 1;
+	 }
+	 return problem1(half, 3) + problem1(half, 2);
 
 	 }
 
